@@ -24,3 +24,6 @@ release.properties
 # OS
 .DS_Store
 Thumbs.db
+
+# Ignore test reports
+test-output/
