@@ -21,6 +21,6 @@ public class LoginTest extends BaseTest {
         loginPage.login(username, password);
 
         DashboardPage dashboardPage = new DashboardPage(page);
-        Assert.assertTrue(dashboardPage.isAtDashboard(), "Dashboard not loaded after login.");
+        dashboardPage.loginVerification();
     }
 }
