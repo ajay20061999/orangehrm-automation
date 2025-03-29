@@ -4,7 +4,6 @@ import com.orangehrm.base.BaseTest;
 import com.orangehrm.pages.DashboardPage;
 import com.orangehrm.pages.LoginPage;
 import com.orangehrm.utils.ConfigReader;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class LoginTest extends BaseTest {
