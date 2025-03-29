@@ -1,6 +1,7 @@
 package com.orangehrm.pages;
 
 import com.microsoft.playwright.Page;
+import static org.testng.AssertJUnit.assertEquals;
 
 public class LoginPage {
     private final Page page;
@@ -15,6 +16,7 @@ public class LoginPage {
 
     public void navigateToLoginPage(String url) {
         page.navigate(url);
+        assertEquals("OrangeHRM", page.title());
     }
 
     public void login(String username, String password) {

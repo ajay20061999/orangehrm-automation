@@ -2,28 +2,32 @@ package com.orangehrm.pages;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import org.slf4j.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DashboardPage {
     private final Page page;
+    private static final Logger logger = LoggerFactory.getLogger(DashboardPage.class);
 
     private final String userDropdown = "span.oxd-userdropdown-tab";
-    private final String dashboardHeader = "h6.oxd-text.oxd-text--h6.oxd-topbar-header-breadcrumb-module";
-
-    // Left Menu Elements & XPaths
     private final String closeMenu = "//button[@class='oxd-icon-button oxd-main-menu-button']";
     private final String searchBar = "//input[@placeholder='Search']";
-    private final String adminTab = "a[href='/web/index.php/admin/viewAdminModule']";
-    private final String pimTab = "a[href='/web/index.php/pim/viewPimModule']";
-    private final String leaveTab = "a[href='/web/index.php/leave/viewLeaveModule']";
-    private final String timeTab = "a[href='/web/index.php/time/viewTimeModule']";
-    private final String recruitmentTab = "a[href='/web/index.php/recruitment/viewRecruitmentModule']";
-    private final String myinfoTab = "a[href='/web/index.php/pim/viewMyDetails']";
-    private final String performenceTab = "a[href='/web/index.php/performance/viewPerformanceModule']";
-    private final String dashboardTab = "a[href='/web/index.php/dashboard/index']";
-    private final String directoryTab = "a[href='/web/index.php/directory/viewDirectory']";
-    private final String maintenanceTab = "a[href='/web/index.php/maintenance/viewMaintenanceModule']";
-    private final String claimTab = "a[href='/web/index.php/claim/viewClaimModule']";
-    private final String buzzTab = "a[href='/web/index.php/buzz/viewBuzz']";
+
+    private final Map<String, String> tabSelectors = new HashMap<String, String>() {{
+        put("Admin", "a[href='/web/index.php/admin/viewAdminModule']");
+        put("PIM", "a[href='/web/index.php/pim/viewPimModule']");
+        put("Leave", "a[href='/web/index.php/leave/viewLeaveModule']");
+        put("Time", "a[href='/web/index.php/time/viewTimeModule']");
+        put("Recruitment", "a[href='/web/index.php/recruitment/viewRecruitmentModule']");
+        put("My Info", "a[href='/web/index.php/pim/viewMyDetails']");
+        put("Performance", "a[href='/web/index.php/performance/viewPerformanceModule']");
+        put("Dashboard", "a[href='/web/index.php/dashboard/index']");
+        put("Directory", "a[href='/web/index.php/directory/viewDirectory']");
+        put("Maintenance", "a[href='/web/index.php/maintenance/viewMaintenanceModule']");
+        put("Claim", "a[href='/web/index.php/claim/viewClaimModule']");
+        put("Buzz", "a[href='/web/index.php/buzz/viewBuzz']");
+    }};
 
 
     public DashboardPage(Page page) {
@@ -40,6 +44,23 @@ public class DashboardPage {
             throw new RuntimeException("Login verification failed: User dropdown not found.", e);
         }
 
+    }
+
+    public void navigateToTab(String tabName) {
+        String tabSelector = tabSelectors.get(tabName);
+        if (tabSelector != null) {
+            try {
+                page.waitForSelector(tabSelector, new Page.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
+                page.click(tabSelector);
+                logger.info("Navigated to tab: {}", tabName);
+            } catch (Exception e) {
+                logger.error("Failed to navigate to {}", tabName, e);
+                throw new RuntimeException("Tab navigation failed for: " + tabName, e);
+            }
+        } else {
+            logger.error("Tab not found: {}", tabName);
+            throw new IllegalArgumentException("Tab name not recognized: " + tabName);
+        }
     }
 
 }
