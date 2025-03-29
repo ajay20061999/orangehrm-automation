@@ -12,11 +12,9 @@ public class ExtentReportManager {
 
     public static ExtentReports getInstance() {
         if (extent == null) {
-            // Generate unique report name based on timestamp
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String reportPath = System.getProperty("user.dir") + "/test-output/ExtentReport_" + timestamp + ".html";
 
-            // Create ExtentSparkReporter with the unique report name
             ExtentSparkReporter reporter = new ExtentSparkReporter(reportPath);
             reporter.config().setReportName("OrangeHRM Test Report");
             reporter.config().setDocumentTitle("Automation Report");
