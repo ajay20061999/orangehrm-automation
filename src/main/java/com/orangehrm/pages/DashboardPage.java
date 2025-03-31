@@ -13,6 +13,10 @@ public class DashboardPage {
     private final String userDropdown = "span.oxd-userdropdown-tab";
     private final String closeMenu = "//button[@class='oxd-icon-button oxd-main-menu-button']";
     private final String searchBar = "//input[@placeholder='Search']";
+    private final String optAbout = "//a[text()='About']";
+    private final String optSupport = "a[href='/web/index.php/help/support']";
+    private final String optChangePassword = "a[href='/web/index.php/pim/updatePassword']";
+    private final String optLogout = "a[href='/web/index.php/auth/logout']";
 
     private final Map<String, String> tabSelectors = new HashMap<String, String>() {{
         put("Admin", "a[href='/web/index.php/admin/viewAdminModule']");
@@ -38,7 +42,6 @@ public class DashboardPage {
 
         try {
             page.waitForSelector(userDropdown, new Page.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
-            System.out.println("Login was successful. User dropdown is visible.");
         } catch (Exception e) {
             System.out.println("Login failed. User dropdown is not visible.");
             throw new RuntimeException("Login verification failed: User dropdown not found.", e);
@@ -61,6 +64,13 @@ public class DashboardPage {
             logger.error("Tab not found: {}", tabName);
             throw new IllegalArgumentException("Tab name not recognized: " + tabName);
         }
+    }
+
+    public void logout(){
+
+        page.click(userDropdown);
+        page.click(optLogout);
+
     }
 
 }

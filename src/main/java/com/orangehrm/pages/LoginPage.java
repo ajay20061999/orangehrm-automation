@@ -1,6 +1,8 @@
 package com.orangehrm.pages;
 
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.WaitForSelectorState;
+
 import static org.testng.AssertJUnit.assertEquals;
 
 public class LoginPage {
@@ -23,5 +25,9 @@ public class LoginPage {
         page.fill(usernameInput, username);
         page.fill(passwordInput, password);
         page.click(loginButton);
+    }
+
+    public void logoutVerification(){
+        page.waitForSelector(loginButton,new Page.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
     }
 }

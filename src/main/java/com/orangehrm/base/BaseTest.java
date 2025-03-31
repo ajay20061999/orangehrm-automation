@@ -30,11 +30,13 @@ public class BaseTest {
     public void launchBrowser() {
         playwright = Playwright.create();
         browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+
     }
 
     @BeforeMethod
     public void createPage(Method method) {
         page = browser.newPage();
+        page.setViewportSize(1920, 1080);
         test = extent.createTest(method.getName());  // Create a test with the method name
     }
 
@@ -77,4 +79,5 @@ public class BaseTest {
             test.addScreenCaptureFromPath(relativeScreenshotPath);
         }
     }
+
 }
