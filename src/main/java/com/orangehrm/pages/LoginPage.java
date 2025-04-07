@@ -12,6 +12,7 @@ public class LoginPage {
     private final String passwordInput = "input[name='password']";
     private final String loginButton = "button[type='submit']";
 
+
     public LoginPage(Page page) {
         this.page = page;
     }
