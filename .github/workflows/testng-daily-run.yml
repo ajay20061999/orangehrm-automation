@@ -49,9 +49,9 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -Dmaven.compiler.source=11 -Dmaven.compiler.target=11
 
-      # Step 8: Upload test results (update to use latest version of upload-artifact)
-      - name: Upload test results
-        uses: actions/upload-artifact@v2  # Reverting to a more stable version
-        with:
-          name: test-results
-          path: target/surefire-reports/*.xml  # Adjust this to your actual test results path
+#      # Step 8: Upload test results (update to use latest version of upload-artifact)
+#      - name: Upload test results
+#        uses: actions/upload-artifact@v2  # Reverting to a more stable version
+#        with:
+#          name: test-results
+#          path: target/surefire-reports/*.xml  # Adjust this to your actual test results path
