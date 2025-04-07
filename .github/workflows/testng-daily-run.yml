@@ -32,5 +32,5 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
-      - name: Run Tests
-        run: mvn test
+      - name: Build and Test with Maven
+        run: mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
