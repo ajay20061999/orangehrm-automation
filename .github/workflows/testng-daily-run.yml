@@ -20,9 +20,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      # Step 2: Set up JDK 11
+      # Step 2: Set up JDK 11 (using v2 instead of v3)
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v2
         with:
           java-version: '11'  # Match the version in your local environment
           distribution: 'temurin'
@@ -53,9 +53,9 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -Dmaven.compiler.source=11 -Dmaven.compiler.target=11
 
-      # Optional: Upload test results to GitHub for visibility (optional, but helpful)
+      # Optional: Upload test results to GitHub for visibility (updated to correctly point to test results)
       - name: Upload test results
         uses: actions/upload-artifact@v2
         with:
           name: test-results
-          path: target/surefire-reports/  # Path where Surefire test results are stored
+          path: target/surefire-reports/*.xml  # Corrected the path to the actual test result XML files
