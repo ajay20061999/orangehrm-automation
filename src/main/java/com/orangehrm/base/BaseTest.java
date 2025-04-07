@@ -28,24 +28,16 @@ public class BaseTest {
 
     @BeforeClass
     public void launchBrowser() {
-        try {
-            playwright = Playwright.create();
-            // Optional: ensure necessary browser binaries are installed
-            playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
-            browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-        } catch (PlaywrightException e) {
-            throw new RuntimeException("Failed to launch Playwright browser. Ensure browser binaries are installed via `playwright install`.", e);
-        }
+        playwright = Playwright.create();
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+
     }
 
     @BeforeMethod
     public void createPage(Method method) {
-        if (browser == null) {
-            throw new IllegalStateException("Browser is not initialized. Check launchBrowser() for errors.");
-        }
         page = browser.newPage();
         page.setViewportSize(1920, 1080);
-        test = extent.createTest(method.getName());
+        test = extent.createTest(method.getName());  // Create a test with the method name
     }
 
     @AfterMethod
@@ -64,14 +56,8 @@ public class BaseTest {
 
     @AfterClass
     public void closeBrowser() {
-        if (browser != null) {
-            browser.close();
-            browser = null;
-        }
-        if (playwright != null) {
-            playwright.close();
-            playwright = null;
-        }
+        if (browser != null) browser.close();
+        if (playwright != null) playwright.close();
     }
 
     @AfterSuite
@@ -80,7 +66,7 @@ public class BaseTest {
     }
 
     private void captureScreenshot(ITestResult result) throws IOException {
-        if (result.getStatus() == ITestResult.FAILURE && page != null) {
+        if (result.getStatus() == ITestResult.FAILURE) {
             String screenshotFolder = "test-output/screenshots/";
             String screenshotPath = screenshotFolder + result.getName() + "-" + System.currentTimeMillis() + ".png";
 
@@ -93,4 +79,5 @@ public class BaseTest {
             test.addScreenCaptureFromPath(relativeScreenshotPath);
         }
     }
+
 }
