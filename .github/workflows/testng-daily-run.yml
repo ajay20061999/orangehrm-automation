@@ -24,7 +24,7 @@ jobs:
       - name: Set up Playwright
         run: |
           npm install -D playwright
-          npx playwright install  # Install the necessary browser binaries
+          npx playwright install
 
       - name: Build with Maven
         run: mvn clean install -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8 --add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED
