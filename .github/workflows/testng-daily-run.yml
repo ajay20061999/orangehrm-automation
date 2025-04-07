@@ -1,43 +1,61 @@
 name: Build and Test
 
+# Triggers
 on:
+  # Schedule the workflow to run every 5 minutes
   schedule:
     - cron: '*/5 * * * *'  # Every 5 minutes
+
+  # Also run on every push to the 'develop' branch
   push:
     branches:
       - develop
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout Code
         uses: actions/checkout@v2
 
+      # Step 2: Set up JDK 11
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '11'  # Match the version in your local environment
           distribution: 'temurin'
 
+      # Step 3: Set up Playwright (for browser automation)
       - name: Set up Playwright
         run: |
-          npm install -D playwright
-          npx playwright install  # Install the necessary browser binaries
+          npm install -D playwright  # Install Playwright
+          npx playwright install  # Install browser binaries
         env:
-          PLAYWRIGHT_BROWSERS_PATH: 0
-          HEADLESS: true  # Ensure headless mode is enabled
+          PLAYWRIGHT_BROWSERS_PATH: 0  # Ensures Playwright uses its own path for browsers
+          HEADLESS: true  # Ensures headless mode is enabled for browser automation
 
+      # Step 4: Set JAVA_OPTS for Maven Build (for compatibility)
       - name: Set JAVA_OPTS for Maven Build
         run: echo "JAVA_OPTS=--add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED" >> $GITHUB_ENV
 
+      # Step 5: Install xvfb (X Virtual Framebuffer for headless testing)
       - name: Install xvfb (X Virtual Framebuffer)
-        run: sudo apt-get install -y xvfb  # Install xvfb to simulate X server
+        run: sudo apt-get install -y xvfb
 
-      - name: Run Tests with Xvfb (Simulate X Server for Headed Browser)
+      # Step 6: Run Tests with Xvfb (Simulate X Server for Headed Browser)
+      - name: Run Tests with Xvfb
         run: |
-          xvfb-run -a mvn clean test -Dsurefire.suiteXmlFiles=testng.xml -X  # Use xvfb to simulate X server for headed browser
+          xvfb-run -a mvn clean test -Dsurefire.suiteXmlFiles=testng.xml -X  # Run Maven tests with xvfb
 
+      # Step 7: Build the project with Maven
       - name: Build with Maven
-        run: mvn clean install -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
+        run: mvn clean install -Dmaven.compiler.source=11 -Dmaven.compiler.target=11
+
+      # Optional: Upload test results to GitHub for visibility (optional, but helpful)
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: target/surefire-reports/  # Path where Surefire test results are stored
