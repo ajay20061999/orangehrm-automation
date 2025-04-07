@@ -6,4 +6,10 @@
             <class name="com.orangehrm.tests.LoginTest"/>
         </classes>
     </test>
+
+    <test name="Employee Tests">
+        <classes>
+            <class name="com.orangehrm.tests.CreateEmployeeTest"/>
+        </classes>
+    </test>
 </suite>
