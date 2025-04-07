@@ -103,14 +103,11 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.1.2</version>
         <configuration>
-          <!-- Redirect the output to files instead of the console -->
-          <redirectTestOutputToFile>true</redirectTestOutputToFile>
-          <useFile>false</useFile> <!-- This ensures output is handled without issues -->
-          <forkCount>1</forkCount> <!-- Controls the number of JVMs used for testing -->
-          <reuseForks>false</reuseForks> <!-- Disable reuse of forked JVMs, which may help with corruption -->
+          <suiteXmlFiles>
+            <suiteXmlFile>testng.xml</suiteXmlFile>
+          </suiteXmlFiles>
         </configuration>
       </plugin>
-
     </plugins>
 
 
