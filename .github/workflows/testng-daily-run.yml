@@ -25,6 +25,10 @@ jobs:
         run: |
           npm install -D playwright
           npx playwright install  # Install the necessary browser binaries
+        # Use headless mode for Playwright
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: 0
+          HEADLESS: true
 
       - name: Set JAVA_OPTS for Maven Build
         run: echo "JAVA_OPTS=--add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED" >> $GITHUB_ENV
@@ -37,4 +41,3 @@ jobs:
 
       - name: Run Playwright Tests with xvfb-run
         run: xvfb-run -a mvn clean test -Dsurefire.suiteXmlFiles=testng.xml -X  # Use xvfb-run to simulate X server for headed browser
-
