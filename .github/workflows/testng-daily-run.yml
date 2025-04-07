@@ -19,6 +19,12 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '8'
+          distribution: 'adoptopenjdk'  # Add distribution input here
+
+      - name: Set up Playwright
+        run: |
+          npm install -D playwright
+          npx playwright install  # Install the necessary browser binaries
 
       - name: Build with Maven
         run: mvn clean install -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8 --add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED
