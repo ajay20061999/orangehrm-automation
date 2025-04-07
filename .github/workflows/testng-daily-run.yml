@@ -26,11 +26,11 @@ jobs:
           npm install -D playwright
           npx playwright install
 
-      - name: Build with Maven
-        run: mvn clean install -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
-
 #      - name: Build with Maven
-#        run: mvn clean install -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8 --add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED
+#        run: mvn clean install -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
+
+      - name: Build with Maven
+        run: mvn clean install -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 --add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED
 
       - name: Run Tests
         run: mvn test
