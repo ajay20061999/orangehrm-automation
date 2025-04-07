@@ -51,7 +51,7 @@ jobs:
 
       # Step 8: Upload test results (update to use latest version of upload-artifact)
       - name: Upload test results
-        uses: actions/upload-artifact@v3  # Use the latest stable version
+        uses: actions/upload-artifact@v2  # Reverting to a more stable version
         with:
           name: test-results
-          path: target/surefire-reports/*.xml  # Ensure this is the correct path for your test results
+          path: target/surefire-reports/*.xml  # Adjust this to your actual test results path
