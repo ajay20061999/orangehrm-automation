@@ -38,13 +38,13 @@ jobs:
 
       # Step 5: Install xvfb (X Virtual Framebuffer for headless testing)
       - name: Install xvfb (X Virtual Framebuffer)
-        run: sudo apt-get install -y xvfb
+        run: sudo apt-get update && sudo apt-get install -y xvfb
 
       # Step 6: Run Maven clean install before running tests
       - name: Run Maven clean install
         run: mvn clean install -Dmaven.compiler.source=11 -Dmaven.compiler.target=11 -X
 
-      # Step 7: Run Tests with Xvfb
+      # Step 7: Run Tests with Xvfb (This allows the tests to run in a virtual display)
       - name: Run Tests with Xvfb
         run: |
           xvfb-run -a mvn clean test -Dsurefire.suiteXmlFiles=testng.xml -X
