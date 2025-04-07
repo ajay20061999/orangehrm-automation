@@ -26,8 +26,11 @@ jobs:
           npm install -D playwright
           npx playwright install  # Install the necessary browser binaries
 
+      - name: Set JAVA_OPTS for Maven Build
+        run: echo "JAVA_OPTS=--add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED" >> $GITHUB_ENV
+
       - name: Build with Maven
-        run: mvn clean install -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8 --add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED
+        run: mvn clean install -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8
 
       - name: Run Tests
         run: mvn test
